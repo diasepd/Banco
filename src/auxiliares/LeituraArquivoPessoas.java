@@ -14,42 +14,53 @@ import java.util.List;
 import static java.nio.file.Files.lines;
 
 public class LeituraArquivoPessoas {
-    String path;
-    Banco banco;
-    double valorDeposito;
-    List<String> importado = new ArrayList<>();
+    static String PESSOA_JURIDICA = "2";
+    private String path;
+    private Banco banco;
+    private double valorDeposito;
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public LeituraArquivoPessoas(Banco banco, double valorDeposito, String path) {
         this.path = path;
         this.banco = banco;
         this.valorDeposito = valorDeposito;
-        importado.add("nome_do_cliente;documento;pf_pj;numero_da_conta;saldo_em_conta");
         this.ler();
     }
 
     private void ler() {
-        try {lines(Path.of(path + "pessoas.csv")).skip(1).map(pessoa -> pessoa.split(","))
-                .filter(this::pessoaJuridicaEFisicaMaiorDeIdade)
-                .forEach(this::criarDepositarAdicionar);
+        try {
+            List<String> importado = new ArrayList<>(
+                    lines(Path.of(path + "pessoas.csv")).skip(1)
+                    .map(pessoa -> pessoa.split(","))
+                    .filter(this::pessoaJuridicaOuFisicaMaiorDeIdade)
+                    .map(this::criarUsuarioConta)
+                    .map(this::depositar)
+                    .map(this::montarLinha)
+                    .toList()
+            );
+            importado.add(0,"nome_do_cliente;documento;pf_pj;numero_da_conta;saldo_em_conta");
+
             Files.write(Path.of(path + "importados.csv"), importado);
         } catch (IOException e) { throw new RuntimeException(e); }
     }
 
-    private boolean pessoaJuridicaEFisicaMaiorDeIdade(String[] pessoa) {
-        if (pessoaJuridica(pessoa[3])) return true;
-        LocalDate dataNascimento = LocalDate.parse(pessoa[1], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        return ChronoUnit.YEARS.between(dataNascimento, LocalDate.now()) < 18;
+    private boolean pessoaJuridicaOuFisicaMaiorDeIdade(String[] pessoa) {
+        if (PESSOA_JURIDICA.equals(pessoa[3])) return true;
+        return ChronoUnit.YEARS.between(LocalDate.parse(pessoa[1], dateTimeFormatter), LocalDate.now()) > 17;
     }
 
-    private boolean pessoaJuridica(String tipoPessoa) {return tipoPessoa.equals("2");}
+    private Usuario criarUsuarioConta(String[] pessoa) {
+        if (PESSOA_JURIDICA.equals(pessoa[3])) return new UsuarioPJ(pessoa[2]/* ID */, pessoa[0]/* Nome */, banco);
+        return new UsuarioPF(pessoa[2], pessoa[0], banco);
+    }
 
-    private void criarDepositarAdicionar(String[] pessoa) {
-        Usuario usuario; // Criar
-        String tipoPessoa = pessoaJuridica(pessoa[3]) ? "PJ":"PF";
-        if (tipoPessoa.equals("PJ")) usuario = new UsuarioPJ(pessoa[2]/* ID */, pessoa[0]/* Nome */, banco);
-        else                         usuario = new UsuarioPF(pessoa[2], pessoa[0], banco);
-        usuario.getContaCorrente().depositar(valorDeposito); // Depositar
-        importado.add(pessoa[0] + ";" + pessoa[2] + ";" + tipoPessoa + ";" + // Adicionar
-                      usuario.getContaCorrente().getId() + ";" + usuario.getContaCorrente().getSaldo());
+    private Usuario depositar(Usuario usuario) {
+        usuario.getContaCorrente().depositar(valorDeposito);
+        return usuario;
+    }
+
+    private String montarLinha(Usuario usuario) {
+        return usuario.getNome() + ";" + usuario.getId() + ";" + usuario.getClassificacao() + ";" +
+               usuario.getContaCorrente().getId() + ";" + usuario.getContaCorrente().getSaldo();
     }
 }

@@ -29,19 +29,19 @@ public abstract class Usuario {
     }
 
     public String getId() {return id;}
-//    public void setId(String id) {this.id = id;}
+    public void setId(String id) {this.id = id;}
     public Classificacao getClassificacao() {return classificacao;}
     public void setClassificacao(Classificacao classificacao) {this.classificacao = classificacao;}
-//    public String getNome() {return nome;}
-//    public void setNome(String nome) {this.nome = nome;}
-//    public LocalDateTime getDataDeCadastro() {return dataDeCadastro;}
-//    public void setDataDeCadastro(LocalDateTime dataDeCadastro) {this.dataDeCadastro = dataDeCadastro;}
-//    public Status getStatus() {return status;}
-//    public void setStatus(Status status) {this.status = status;}
-//    public Banco getBanco() {return banco;}
-//    public void setBanco(Banco banco) {this.banco = banco;}
+    public String getNome() {return nome;}
+    public void setNome(String nome) {this.nome = nome;}
+    public LocalDateTime getDataDeCadastro() {return dataDeCadastro;}
+    public void setDataDeCadastro(LocalDateTime dataDeCadastro) {this.dataDeCadastro = dataDeCadastro;}
+    public Status getStatus() {return status;}
+    public void setStatus(Status status) {this.status = status;}
+    public Banco getBanco() {return banco;}
+    public void setBanco(Banco banco) {this.banco = banco;}
     public ContaCorrente getContaCorrente() {return contaCorrente;}
-//    public void setContaCorrente(ContaCorrente contaCorrente) {this.contaCorrente = contaCorrente;}
+    public void setContaCorrente(ContaCorrente contaCorrente) {this.contaCorrente = contaCorrente;}
     public ContaInvestimento getContaInvestimento() {return contaInvestimento;}
     public void setContaInvestimento(ContaInvestimento contaInvestimento) {this.contaInvestimento = contaInvestimento;}
     public ContaInvestimento ChecaContaInvestimento() {

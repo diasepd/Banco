@@ -12,14 +12,13 @@ public class Teste {
     public static void main(String[] args) throws InterruptedException {
         Banco banco = new Banco();
         new LeituraArquivoPessoas(banco, 50, "C:/Users/diase/IdeaProjects/Banco/");
+        for (Usuario usuario : banco.getListaDeUsuario()) {
+            System.out.println(usuario.getContaCorrente().getSaldo() + " " + usuario.toString());
+        }
+
 //        UsuarioPF usuario1 = new UsuarioPF("12345678911", "Eduardo Caldas Dias", banco);        //Conta corrente PF
 //        UsuarioPJ usuario2 = new UsuarioPJ("916962327910001", "Fábrica de brinquedos", banco);  // Conta corrente PJ
 //        banco.setUsuario(usuario1);
-        for (Usuario usuario : banco.getListaDeUsuario()) {
-            System.out.println(usuario.toString());
-            System.out.println(usuario.getContaCorrente().getSaldo());
-            System.out.println();
-        }
 //        usuario1.setContaPoupanca(new ContaPoupanca(3, "12345678911", banco));                  //Conta poupança PF
 //
 //        System.out.println("\nSaldo após DEPOSITO e INVESTIMENTO");
