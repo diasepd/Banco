@@ -4,13 +4,14 @@ import enums.TipoAcao;
 import models.Registro;
 import models.Conta;
 
-public class Investimento extends AcaoImpl {
-    @Override
-    public void realizar(double valor, Conta... conta) {
-        if (new Movimentacao().movimentar(conta, valor, valor)) {
-            idUsuario = conta[0].getIdUsuario();
-            conta[0].addRegistro(new Registro(TipoAcao.INVESTIMENTO, valor, valor, idUsuario, idUsuario, "Débito"));
-            conta[1].addRegistro(new Registro(TipoAcao.INVESTIMENTO, valor, valor, idUsuario, idUsuario, "Crédito"));
+public class Investimento {
+    public void realizar(double valor, Conta conta) {
+        Conta contaInvest = conta.getBanco().getUsuario(conta.getIdUsuario()).ChecaContaInvestimento();
+        Conta[] contas = {conta, contaInvest};
+        if (new Movimentacao().movimentar(contas, valor, valor)) {
+            String idUsuario = conta.getIdUsuario();
+            conta.addRegistro(new Registro(TipoAcao.INVESTIMENTO, valor, valor, idUsuario, idUsuario, "Débito"));
+            contaInvest.addRegistro(new Registro(TipoAcao.INVESTIMENTO, valor, valor, idUsuario, idUsuario, "Crédito"));
         }
     }
 }

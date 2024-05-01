@@ -1,7 +1,4 @@
-import acoes.ConsultaSaldo;
-import acoes.Deposito;
-import acoes.Saque;
-import acoes.Transferencia;
+import acoes.*;
 import auxiliares.LeituraArquivoPessoas;
 import models.Banco;
 import models.*;
@@ -30,8 +27,8 @@ public class Teste {
         Thread.sleep(2000);
         new Deposito().realizar(200, usuario2.getContaCorrente());
         new Deposito().realizar(100, usuario1.getContaPoupanca());
-        usuario1.getContaCorrente().investir(100);                           //100
-        usuario2.getContaCorrente().investir(100);                           //100
+        new Investimento().realizar(100, usuario1.getContaCorrente());                           //100
+        new Investimento().realizar(100, usuario2.getContaCorrente());                           //100
         saldos(usuario1, usuario2);
 
         System.out.println("Saldo após SAQUE");
@@ -53,11 +50,11 @@ public class Teste {
         saldos(usuario1, usuario2);
 
         System.out.println("Consulta saldo\n");
-        new ConsultaSaldo().realizar(0, usuario1.getContaCorrente());                       //100
-        new ConsultaSaldo().realizar(0, usuario2.getContaCorrente());                       //109
-        new ConsultaSaldo().realizar(0, usuario1.getContaPoupanca());                       //80
-        new ConsultaSaldo().realizar(0, usuario1.getContaInvestimento());                   //80
-        new ConsultaSaldo().realizar(0, usuario2.getContaInvestimento());                   //80
+        new ConsultaSaldo().realizar(usuario1.getContaCorrente());                       //100
+        new ConsultaSaldo().realizar(usuario2.getContaCorrente());                       //109
+        new ConsultaSaldo().realizar(usuario1.getContaPoupanca());                       //80
+        new ConsultaSaldo().realizar(usuario1.getContaInvestimento());                   //80
+        new ConsultaSaldo().realizar(usuario2.getContaInvestimento());                   //80
 
         System.out.println("Saldo após Rendimento");
         usuario1.getContaInvestimento().render();              //80.8

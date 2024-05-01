@@ -9,7 +9,7 @@ public class Transferencia {
         double valorSolicitado = valor;
         valor = conta.getTipoPessoa().calcularRetirada(valor, conta.getTipoConta());
         Conta conta3o = conta.getBanco().getUsuario(terceiro).getContaCorrente();
-        Conta[] contas = {conta, conta.getBanco().getUsuario(terceiro).getContaCorrente()};
+        Conta[] contas = {conta, conta3o};
         if (new Movimentacao().movimentar(contas, valorSolicitado, valor)) {
             conta.addRegistro(new Registro(TipoAcao.TRANSFERENCIA, valorSolicitado, valor, conta.getIdUsuario(),
                     conta3o.getIdUsuario(), "Débito"));

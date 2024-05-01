@@ -6,9 +6,9 @@ import models.Conta;
 
 public class Deposito extends AcaoImpl {
     @Override
-    public void realizar(double valor, Conta... conta) {
-        new Credito().creditar(conta[0], valor);
-        idUsuario = conta[0].getIdUsuario();
-        conta[0].addRegistro(new Registro(TipoAcao.DEPOSITO, valor, valor, idUsuario, idUsuario, "Deposito"));
+    public void realizar(double valor, Conta conta) {
+        new Credito().creditar(conta, valor);
+        idUsuario = conta.getIdUsuario();
+        conta.addRegistro(new Registro(TipoAcao.DEPOSITO, valor, valor, idUsuario, idUsuario, "Deposito"));
     }
 }
