@@ -4,16 +4,17 @@ import enums.TipoAcao;
 import models.Registro;
 import models.Conta;
 
-public class Transferencia extends AcaoImpl {
-    @Override
-    public void realizar(double valor, Conta... conta) {
+public class Transferencia {
+    public void realizar(double valor, String terceiro, Conta conta) {
         double valorSolicitado = valor;
-        valor = conta[0].getTipoPessoa().calcularRetirada(valor, conta[0].getTipoConta());
-        if (new Movimentacao().movimentar(conta, valorSolicitado, valor)) {
-           conta[0].setRegistro(new Registro(TipoAcao.TRANSFERENCIA, valorSolicitado, valor, conta[0].getIdUsuario(),
-                   conta[1].getIdUsuario(), "Débito"));
-           conta[1].setRegistro(new Registro(TipoAcao.TRANSFERENCIA, valorSolicitado, valor, conta[0].getIdUsuario(),
-                   conta[1].getIdUsuario(), "Crédito"));
+        valor = conta.getTipoPessoa().calcularRetirada(valor, conta.getTipoConta());
+        Conta conta3o = conta.getBanco().getUsuario(terceiro).getContaCorrente();
+        Conta[] contas = {conta, conta.getBanco().getUsuario(terceiro).getContaCorrente()};
+        if (new Movimentacao().movimentar(contas, valorSolicitado, valor)) {
+            conta.addRegistro(new Registro(TipoAcao.TRANSFERENCIA, valorSolicitado, valor, conta.getIdUsuario(),
+                    conta3o.getIdUsuario(), "Débito"));
+            conta3o.addRegistro(new Registro(TipoAcao.TRANSFERENCIA, valorSolicitado, valor, conta.getIdUsuario(),
+                    conta3o.getIdUsuario(), "Crédito"));
         }
     }
 }

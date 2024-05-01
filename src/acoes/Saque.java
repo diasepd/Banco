@@ -11,7 +11,7 @@ public class Saque extends AcaoImpl {
         valor = conta[0].getTipoPessoa().calcularRetirada(valor, conta[0].getTipoConta());
         if (new Debito().debitar(conta[0], valor)) {
             idUsuario = conta[0].getIdUsuario();
-            conta[0].setRegistro(new Registro(TipoAcao.SAQUE, valorSolicitado, valor, idUsuario, idUsuario, "Saque"));
+            conta[0].addRegistro(new Registro(TipoAcao.SAQUE, valorSolicitado, valor, idUsuario, idUsuario, "Saque"));
         }
     }
 }

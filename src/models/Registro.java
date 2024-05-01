@@ -22,14 +22,6 @@ public class Registro {
         this.observacao = observacao;
     }
 
-//    public LocalDateTime getData() {return data;}
-//    public TipoAcao getAcao() {return acao;}
-//    public double getValorPretendido() {return valorPretendido;}
-//    public double getValorReal() {return valorReal;}
-//    public String getIdUsuarioOrigem() {return idUsuarioOrigem;}
-//    public String getIdUsuarioDestino() {return idUsuarioDestino;}
-//    public String getObservacao() {return observacao;}
-
     @Override
     public String toString() {
         return "HistoricoAcao{data="+data+", tipo="+acao+", valorPretendido="+valorPretendido+", valorReal="+valorReal+

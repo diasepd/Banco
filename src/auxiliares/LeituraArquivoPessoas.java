@@ -1,4 +1,5 @@
 package auxiliares;
+import acoes.Deposito;
 import models.Banco;
 import models.Usuario;
 import models.UsuarioPF;
@@ -28,15 +29,13 @@ public class LeituraArquivoPessoas {
     }
 
     private void ler() {
-        try {
-            List<String> importado = new ArrayList<>(
-                    lines(Path.of(path + "pessoas.csv")).skip(1)
-                    .map(pessoa -> pessoa.split(","))
-                    .filter(this::pessoaJuridicaOuFisicaMaiorDeIdade)
-                    .map(this::criarUsuarioConta)
-                    .map(this::depositar)
-                    .map(this::montarLinha)
-                    .toList()
+        try {List<String> importado = new ArrayList<>(lines(Path.of(path + "pessoas.csv")).skip(1)
+                .map(pessoa -> pessoa.split(","))
+                .filter(this::pessoaJuridicaOuFisicaMaiorDeIdade)
+                .map(this::criarUsuarioConta)
+                .map(this::depositar)
+                .map(this::montarLinha)
+                .toList()
             );
             importado.add(0,"nome_do_cliente;documento;pf_pj;numero_da_conta;saldo_em_conta");
 
@@ -55,7 +54,7 @@ public class LeituraArquivoPessoas {
     }
 
     private Usuario depositar(Usuario usuario) {
-        usuario.getContaCorrente().depositar(valorDeposito);
+        new Deposito().realizar(valorDeposito, usuario.getContaCorrente());
         return usuario;
     }
 

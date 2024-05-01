@@ -10,6 +10,6 @@ public class Rendimento extends AcaoImpl {
         double renda = conta[0].getTipoPessoa().calcularRendimento(valor);
         new Credito().creditar(conta[0], renda);
         idUsuario = conta[0].getIdUsuario();
-        conta[0].setRegistro(new Registro(TipoAcao.RENDIMENTO, renda, renda, idUsuario, idUsuario, "Renda"));
+        conta[0].addRegistro(new Registro(TipoAcao.RENDIMENTO, renda, renda, idUsuario, idUsuario, "Renda"));
     }
 }

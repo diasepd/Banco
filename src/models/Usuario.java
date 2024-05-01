@@ -25,7 +25,6 @@ public abstract class Usuario {
 
     public Usuario(String id, String nome, Banco banco, double valor) {
         this(id, nome, banco);
-        contaCorrente.depositar(50);
     }
 
     public String getId() {return id;}

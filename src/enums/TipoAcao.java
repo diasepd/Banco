@@ -1,10 +1,11 @@
 package enums;
 
 public enum TipoAcao {
-    SAQUE,
-    DEPOSITO,
-    TRANSFERENCIA,
-    INVESTIMENTO,
+    ABRIR_CONTA,
     CONSULTA_SALDO,
-    RENDIMENTO
+    DEPOSITO,
+    INVESTIMENTO,
+    RENDIMENTO,
+    SAQUE,
+    TRANSFERENCIA
 }

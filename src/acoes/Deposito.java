@@ -9,6 +9,6 @@ public class Deposito extends AcaoImpl {
     public void realizar(double valor, Conta... conta) {
         new Credito().creditar(conta[0], valor);
         idUsuario = conta[0].getIdUsuario();
-        conta[0].setRegistro(new Registro(TipoAcao.DEPOSITO, valor, valor, idUsuario, idUsuario, "Deposito"));
+        conta[0].addRegistro(new Registro(TipoAcao.DEPOSITO, valor, valor, idUsuario, idUsuario, "Deposito"));
     }
 }
