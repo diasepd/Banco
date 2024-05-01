@@ -1,10 +1,8 @@
 package models;
-import acoes.*;
 import enums.Classificacao;
 import enums.Status;
 import enums.TipoConta;
 import enums.TipoAcao;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
